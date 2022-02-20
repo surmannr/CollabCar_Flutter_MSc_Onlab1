@@ -27,10 +27,16 @@ class _MainDrawerState extends State<MainDrawer> {
 
   List<Widget> buildSameTilesForBoth() {
     return [
-      buildListTile('Profilbeállítások', Icons.settings, () {
+      const Divider(
+        color: Colors.black,
+        thickness: 1.4,
+        indent: 15.0,
+        endIndent: 15.0,
+      ),
+      buildListTile('Profilbeállítások', Icons.account_box, () {
         //Navigator.of(context).pushReplacementNamed('/');
       }),
-      buildListTile('Gépjárműbeállítások', Icons.car_rental, () {
+      buildListTile('Gépjárműbeállítások', Icons.airport_shuttle_rounded, () {
         //Navigator.of(context).pushReplacementNamed(FiltersScreen.routeName);
       }),
       buildListTile('Kijelentkezés', Icons.logout, () {
@@ -44,6 +50,7 @@ class _MainDrawerState extends State<MainDrawer> {
     return DefaultTabController(
       length: 2,
       child: Drawer(
+        backgroundColor: Theme.of(context).canvasColor,
         child: Column(children: [
           const SizedBox(
             height: 20,
@@ -80,7 +87,7 @@ class _MainDrawerState extends State<MainDrawer> {
                   buildListTile('Keresés', Icons.search, () {
                     //Navigator.of(context).pushReplacementNamed('/');
                   }),
-                  buildListTile('Foglalások', Icons.flag, () {
+                  buildListTile('Foglalások', Icons.book_rounded, () {
                     //Navigator.of(context).pushReplacementNamed('/');
                   }),
                   ...buildSameTilesForBoth(),
@@ -88,10 +95,10 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               Column(
                 children: [
-                  buildListTile('Utasaim', Icons.search, () {
+                  buildListTile('Utasaim', Icons.assignment_ind_rounded, () {
                     //Navigator.of(context).pushReplacementNamed('/');
                   }),
-                  buildListTile('Hirdetéseim', Icons.flag, () {
+                  buildListTile('Hirdetéseim', Icons.analytics, () {
                     //Navigator.of(context).pushReplacementNamed('/');
                   }),
                   ...buildSameTilesForBoth(),
