@@ -1,9 +1,15 @@
+import 'dart:convert';
+
+import 'package:collabcar/providers/search_provider.dart';
 import 'package:flutter/material.dart';
+
+import '../../models/search.dart';
 
 class StepperButtons extends StatelessWidget {
   const StepperButtons(
       {this.onStepContinue,
       this.onStepCancel,
+      required this.searchData,
       required this.firstStep,
       required this.secondStep,
       Key? key})
@@ -12,27 +18,64 @@ class StepperButtons extends StatelessWidget {
   final VoidCallback? onStepContinue;
   final VoidCallback? onStepCancel;
 
+  final SearchProvider searchData;
+
   final bool firstStep;
   final bool secondStep;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: <Widget>[
+        const SizedBox(
+          height: 15.0,
+        ),
         if (!secondStep)
-          TextButton(
-            onPressed: onStepContinue,
-            child: const Text('Következő'),
+          SizedBox(
+            width: double.infinity,
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Theme.of(context).cardColor)),
+              onPressed: onStepContinue,
+              child: const Text(
+                'Következő',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
           ),
         if (secondStep)
-          TextButton(
-            onPressed: () => print("he"),
-            child: const Text('Keresés'),
+          SizedBox(
+            width: double.infinity,
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Theme.of(context).cardColor)),
+              onPressed: () => print(jsonEncode(
+                searchData.search,
+                toEncodable: (nonEncodable) => nonEncodable is Search
+                    ? Search.toJson(nonEncodable)
+                    : throw Exception('Nem'),
+              )),
+              child: const Text(
+                'Keresés',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
           ),
         if (!firstStep)
-          TextButton(
-            onPressed: onStepCancel,
-            child: const Text('Vissza'),
+          SizedBox(
+            width: double.infinity,
+            child: TextButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Theme.of(context).cardColor)),
+              onPressed: onStepCancel,
+              child: const Text(
+                'Vissza',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
           ),
       ],
     );

@@ -3,7 +3,9 @@ import 'package:collabcar/widgets/search_widgets/stepper_buttons.dart';
 import 'package:collabcar/widgets/search_widgets/steptwo_search.dart';
 import 'package:flutter/material.dart';
 
-import 'package:collabcar/widgets/menu/main_drawer.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/search_provider.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -35,16 +37,20 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('CollabCar'),
-      ),
-      drawer: const MainDrawer(),
-      body: Stepper(
+    final searchData = Provider.of<SearchProvider>(context);
+    return Theme(
+      data: ThemeData(
+          primaryColor: Theme.of(context).primaryColor,
+          canvasColor: Theme.of(context).canvasColor,
+          cardColor: Theme.of(context).cardColor,
+          colorScheme:
+              ColorScheme.light(primary: Theme.of(context).primaryColor)),
+      child: Stepper(
         controlsBuilder: (context, details) {
           return StepperButtons(
             onStepContinue: details.onStepContinue,
             onStepCancel: details.onStepCancel,
+            searchData: searchData,
             firstStep: _currentStep == 0,
             secondStep: _currentStep == _maxStepIndex,
           );
@@ -58,12 +64,16 @@ class _SearchScreenState extends State<SearchScreen> {
         steps: [
           Step(
             title: const Text("Keresés"),
-            content: const StepOneSearch(),
+            content: StepOneSearch(
+              searchData: searchData,
+            ),
             isActive: _currentStep == 0,
           ),
           Step(
             title: const Text("További részletek"),
-            content: const StepTwoSearch(),
+            content: StepTwoSearch(
+              searchData: searchData,
+            ),
             isActive: _currentStep == 1,
           ),
         ],

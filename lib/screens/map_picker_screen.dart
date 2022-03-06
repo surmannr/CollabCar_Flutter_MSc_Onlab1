@@ -1,11 +1,19 @@
+import 'package:collabcar/models/place.dart';
+import 'package:collabcar/providers/search_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
 class MapPickerScreen extends StatefulWidget {
-  const MapPickerScreen({this.isSelecting = false, Key? key}) : super(key: key);
+  const MapPickerScreen({
+    this.isSelecting = false,
+    this.isPlaceFromSelection = true,
+    Key? key,
+  }) : super(key: key);
 
   final bool isSelecting;
+  final bool isPlaceFromSelection;
 
   @override
   _MapPickerScreenState createState() => _MapPickerScreenState();
@@ -14,6 +22,8 @@ class MapPickerScreen extends StatefulWidget {
 class _MapPickerScreenState extends State<MapPickerScreen> {
   LatLng? _currentPosition;
   LatLng? _pickedLocation;
+
+  Set<Marker> markers = <Marker>{};
 
   @override
   void initState() {
@@ -55,14 +65,45 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
     });
   }
 
-  void _selectLocation(LatLng position) {
+  void _selectLocation(LatLng position, SearchProvider searchData) {
     setState(() {
       _pickedLocation = position;
+
+      if (widget.isPlaceFromSelection) {
+        searchData.setPlaceFrom(Place(
+          latitude: position.latitude,
+          longitude: position.longitude,
+          address: "",
+        ));
+      } else {
+        searchData.setPlaceTo(Place(
+          latitude: position.latitude,
+          longitude: position.longitude,
+          address: "",
+        ));
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final searchData = Provider.of<SearchProvider>(context, listen: false);
+    if (searchData.search.placeFrom != null) {
+      markers.add(Marker(
+        markerId: const MarkerId('placeFrom'),
+        position: LatLng(searchData.search.placeFrom!.latitude,
+            searchData.search.placeFrom!.longitude),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+      ));
+    }
+    if (searchData.search.placeTo != null) {
+      markers.add(Marker(
+        markerId: const MarkerId('placeTo'),
+        position: LatLng(searchData.search.placeTo!.latitude,
+            searchData.search.placeTo!.longitude),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+      ));
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Válassz ki egy helyet!'),
@@ -79,25 +120,37 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
         ],
       ),
       body: _currentPosition != null
-          ? GoogleMap(
-              mapType: MapType.normal,
-              myLocationEnabled: true,
-              initialCameraPosition: CameraPosition(
-                target: LatLng(
-                    _currentPosition!.latitude, _currentPosition!.longitude),
-                zoom: 10,
-              ),
-              onTap: widget.isSelecting ? _selectLocation : null,
-              markers: _pickedLocation != null
-                  ? {
-                      Marker(
-                          markerId: const MarkerId('place1'),
-                          position: _pickedLocation!),
-                    }
-                  : {},
+          ? Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: TextField(
+                    textCapitalization: TextCapitalization.words,
+                    decoration: InputDecoration(
+                      hintText: 'Helyszín keresése',
+                      suffixIcon: Icon(Icons.search),
+                    ),
+                    autofillHints: [AutofillHints.fullStreetAddress],
+                  ),
+                ),
+                Expanded(
+                  child: GoogleMap(
+                    mapType: MapType.normal,
+                    myLocationEnabled: true,
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(_currentPosition!.latitude,
+                          _currentPosition!.longitude),
+                      zoom: 10,
+                    ),
+                    onTap: widget.isSelecting
+                        ? (lng) => _selectLocation(lng, searchData)
+                        : null,
+                    markers: markers,
+                  ),
+                ),
+              ],
             )
-          : const Text(
-              "Nem sikerült elérni a térképet, kérlek próbáld újra később."),
+          : const CircularProgressIndicator(),
     );
   }
 }

@@ -8,4 +8,10 @@ class Place {
     required this.longitude,
     required this.address,
   });
+
+  static Map<String, dynamic> toJson(Place value) => {
+        'latitude': value.latitude,
+        'longitude': value.longitude,
+        'address': value.address,
+      };
 }

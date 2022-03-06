@@ -3,7 +3,7 @@ import 'package:collabcar/models/place.dart';
 class Search {
   Place? placeFrom;
   Place? placeTo;
-  DateTime? date;
+  DateTime date = DateTime.now();
   int? minSeatingCapacity;
   int? maxPrice;
   String? driverName;
@@ -14,7 +14,7 @@ class Search {
   Search({
     this.placeFrom,
     this.placeTo,
-    this.date,
+    required this.date,
     this.minSeatingCapacity,
     this.maxPrice,
     this.driverName,
@@ -22,4 +22,17 @@ class Search {
     this.canTransportBicycle,
     this.isGoingHighway,
   });
+
+  static Map<String, dynamic> toJson(Search value) => {
+        'placeFrom':
+            value.placeFrom != null ? Place.toJson(value.placeFrom!) : null,
+        'placeTo': value.placeTo != null ? Place.toJson(value.placeTo!) : null,
+        'date': value.date.toString(),
+        'minSeatingCapacity': value.minSeatingCapacity,
+        'maxPrice': value.maxPrice,
+        'driverName': value.driverName,
+        'canTransportPets': value.canTransportPets,
+        'canTransportBicycle': value.canTransportBicycle,
+        'isGoingHighway': value.isGoingHighway,
+      };
 }
