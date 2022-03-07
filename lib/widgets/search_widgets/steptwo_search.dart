@@ -38,7 +38,9 @@ class _StepTwoSearchState extends State<StepTwoSearch> {
               inputType: TextInputType.number,
               labelText: 'Minimum szabad helyek száma',
               hintText: 'Hány utas veszi igénybe a szolgáltatást?',
-              onTapFunction: null,
+              onFunction: (value) {
+                widget.searchData.search.minSeatingCapacity = int.parse(value);
+              },
               icon: Icons.airline_seat_recline_normal_sharp),
           const SizedBox(
             height: 20.0,
@@ -48,7 +50,9 @@ class _StepTwoSearchState extends State<StepTwoSearch> {
               inputType: TextInputType.number,
               labelText: 'Maximális út díj',
               hintText: 'Mennyibe kerüljön maximum?',
-              onTapFunction: null,
+              onFunction: (value) {
+                widget.searchData.search.maxPrice = int.parse(value);
+              },
               icon: Icons.attach_money),
           const SizedBox(
             height: 20.0,
@@ -58,7 +62,9 @@ class _StepTwoSearchState extends State<StepTwoSearch> {
               inputType: TextInputType.name,
               labelText: 'Sofőr neve',
               hintText: 'A sofőr neve vagy felhasználóneve',
-              onTapFunction: null,
+              onFunction: (value) {
+                widget.searchData.search.driverName = value;
+              },
               icon: Icons.person),
           const SizedBox(
             height: 20.0,

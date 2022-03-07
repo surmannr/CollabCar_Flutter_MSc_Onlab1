@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:collabcar/providers/history_provider.dart';
 import 'package:collabcar/providers/search_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,7 @@ class StepperButtons extends StatelessWidget {
       {this.onStepContinue,
       this.onStepCancel,
       required this.searchData,
+      required this.historyData,
       required this.firstStep,
       required this.secondStep,
       Key? key})
@@ -19,6 +21,7 @@ class StepperButtons extends StatelessWidget {
   final VoidCallback? onStepCancel;
 
   final SearchProvider searchData;
+  final HistoryProvider historyData;
 
   final bool firstStep;
   final bool secondStep;
@@ -51,12 +54,16 @@ class StepperButtons extends StatelessWidget {
               style: ButtonStyle(
                   backgroundColor:
                       MaterialStateProperty.all(Theme.of(context).cardColor)),
-              onPressed: () => print(jsonEncode(
-                searchData.search,
-                toEncodable: (nonEncodable) => nonEncodable is Search
-                    ? Search.toJson(nonEncodable)
-                    : throw Exception('Nem'),
-              )),
+              onPressed: () {
+                print(jsonEncode(
+                  searchData.search,
+                  toEncodable: (nonEncodable) => nonEncodable is Search
+                      ? Search.toJson(nonEncodable)
+                      : throw Exception('Nem'),
+                ));
+                historyData.addNewHistoryElement(searchData.search);
+                searchData.clearSearch();
+              },
               child: const Text(
                 'Keresés',
                 style: TextStyle(color: Colors.white),

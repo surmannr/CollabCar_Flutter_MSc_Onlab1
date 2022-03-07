@@ -1,3 +1,5 @@
+import 'package:collabcar/screens/favourite_screen.dart';
+import 'package:collabcar/screens/history_screen.dart';
 import 'package:collabcar/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -21,14 +23,8 @@ class _MainScreenState extends State<MainScreen> {
 
   static const List<Widget> _pages = <Widget>[
     SearchScreen(),
-    Icon(
-      Icons.camera,
-      size: 150,
-    ),
-    Icon(
-      Icons.chat,
-      size: 150,
-    ),
+    FavouriteScreen(),
+    HistoryScreen(),
   ];
 
   @override

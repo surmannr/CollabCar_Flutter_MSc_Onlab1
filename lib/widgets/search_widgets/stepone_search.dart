@@ -223,7 +223,7 @@ class _StepOneSearchState extends State<StepOneSearch> {
             hintText: 'Utazás időpontja (óra, perc)',
             inputType: TextInputType.text,
             icon: Icons.alarm,
-            onTapFunction: () {
+            onFunction: (value) {
               final timepick = showTimePicker(
                 context: context,
                 initialTime: TimeOfDay.now(),

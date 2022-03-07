@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:collabcar/models/place.dart';
 
 class Search {
@@ -35,4 +37,16 @@ class Search {
         'canTransportBicycle': value.canTransportBicycle,
         'isGoingHighway': value.isGoingHighway,
       };
+
+  Search.fromJson(Map<String, dynamic> json) {
+    placeFrom = Place.fromJson(json['placeFrom']);
+    placeTo = Place.fromJson(json['placeTo']);
+    date = DateTime.parse(json['date']);
+    minSeatingCapacity = json['minSeatingCapacity'] as int?;
+    maxPrice = json['maxPrice'] as int?;
+    driverName = json['driverName'] as String?;
+    canTransportPets = json['canTransportPets'] as bool?;
+    canTransportBicycle = json['canTransportBicycle'] as bool?;
+    isGoingHighway = json['isGoingHighway'] as bool?;
+  }
 }

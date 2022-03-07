@@ -4,7 +4,7 @@ class CustomTextFieldWithLabel extends StatelessWidget {
   final TextEditingController textFieldController;
   final String labelText;
   final String hintText;
-  final VoidCallback? onTapFunction;
+  final void Function(String)? onFunction;
   final TextInputType inputType;
   final IconData icon;
 
@@ -12,7 +12,7 @@ class CustomTextFieldWithLabel extends StatelessWidget {
     required this.textFieldController,
     required this.labelText,
     required this.hintText,
-    required this.onTapFunction,
+    required this.onFunction,
     required this.inputType,
     required this.icon,
     Key? key,
@@ -52,7 +52,7 @@ class CustomTextFieldWithLabel extends StatelessWidget {
           color: const Color.fromARGB(255, 138, 211, 140),
         ),
       ),
-      onTap: onTapFunction,
+      onChanged: onFunction,
     );
   }
 }

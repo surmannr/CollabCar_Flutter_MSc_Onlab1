@@ -1,3 +1,4 @@
+import 'package:collabcar/providers/history_provider.dart';
 import 'package:collabcar/providers/search_provider.dart';
 import 'package:collabcar/screens/login_screen.dart';
 import 'package:collabcar/screens/main_screen.dart';
@@ -21,7 +22,7 @@ class CollabCarApp extends StatelessWidget {
 
   final Color? colorOne = const Color.fromRGBO(7, 153, 146, 1.0);
   final Color? colorSecond = const Color.fromRGBO(199, 236, 238, 1.0);
-  final Color? colorThird = const Color.fromARGB(255, 138, 211, 140);
+  final Color? colorThird = const Color.fromRGBO(144, 238, 144, 1.0);
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,9 @@ class CollabCarApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(
           value: SearchProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: HistoryProvider(),
         )
       ],
       child: MaterialApp(

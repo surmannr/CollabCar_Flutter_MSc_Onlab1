@@ -1,3 +1,4 @@
+import 'package:collabcar/providers/history_provider.dart';
 import 'package:collabcar/widgets/search_widgets/stepone_search.dart';
 import 'package:collabcar/widgets/search_widgets/stepper_buttons.dart';
 import 'package:collabcar/widgets/search_widgets/steptwo_search.dart';
@@ -38,6 +39,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     final searchData = Provider.of<SearchProvider>(context);
+    final historyData = Provider.of<HistoryProvider>(context);
     return Theme(
       data: ThemeData(
           primaryColor: Theme.of(context).primaryColor,
@@ -51,6 +53,7 @@ class _SearchScreenState extends State<SearchScreen> {
             onStepContinue: details.onStepContinue,
             onStepCancel: details.onStepCancel,
             searchData: searchData,
+            historyData: historyData,
             firstStep: _currentStep == 0,
             secondStep: _currentStep == _maxStepIndex,
           );
