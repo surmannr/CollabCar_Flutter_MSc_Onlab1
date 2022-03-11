@@ -17,14 +17,25 @@ class HistoryProvider with ChangeNotifier {
   Future<Histories> getFromDevice() async {
     final sharedPref = await SharedPreferences.getInstance();
     final listJson = sharedPref.getString(historyKey) ?? "{}";
-    final list = Histories.fromJson(jsonDecode(listJson));
 
+    final list = Histories.fromJson(jsonDecode(listJson));
     _histories = list;
+
     return _histories;
   }
 
   void addNewHistoryElement(Search search) async {
     _histories.searches.add(search);
+    final historyString = jsonEncode(_histories.toJson());
+
+    final sharedPref = await SharedPreferences.getInstance();
+    sharedPref.remove(historyKey);
+    sharedPref.setString(historyKey, historyString);
+    notifyListeners();
+  }
+
+  void deleteHistoryElement(String id) async {
+    _histories.searches.removeWhere((element) => element.id == id);
     final historyString = jsonEncode(_histories.toJson());
 
     final sharedPref = await SharedPreferences.getInstance();

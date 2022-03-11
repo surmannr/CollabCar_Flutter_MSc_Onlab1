@@ -1,3 +1,4 @@
+import 'package:collabcar/providers/favourite_search_provider.dart';
 import 'package:collabcar/providers/history_provider.dart';
 import 'package:collabcar/providers/search_provider.dart';
 import 'package:collabcar/screens/login_screen.dart';
@@ -33,6 +34,9 @@ class CollabCarApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: HistoryProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: FavouriteSearchProvider(),
         )
       ],
       child: MaterialApp(

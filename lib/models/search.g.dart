@@ -20,9 +20,10 @@ Search _$SearchFromJson(Map<String, dynamic> json) => Search(
       canTransportPets: json['canTransportPets'] as bool?,
       canTransportBicycle: json['canTransportBicycle'] as bool?,
       isGoingHighway: json['isGoingHighway'] as bool?,
-    );
+    )..id = json['id'] as String;
 
 Map<String, dynamic> _$SearchToJson(Search instance) => <String, dynamic>{
+      'id': instance.id,
       'placeFrom': instance.placeFrom,
       'placeTo': instance.placeTo,
       'date': instance.date.toIso8601String(),

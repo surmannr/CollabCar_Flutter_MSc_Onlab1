@@ -7,12 +7,10 @@ part 'favourite_search.g.dart';
 
 @JsonSerializable()
 class FavouriteSearch extends Search {
-  final int id;
   final int userId;
   final int driverId;
 
   FavouriteSearch({
-    required this.id,
     required this.userId,
     required this.driverId,
     required Place placeFrom,
@@ -39,5 +37,6 @@ class FavouriteSearch extends Search {
   factory FavouriteSearch.fromJson(Map<String, dynamic> json) =>
       _$FavouriteSearchFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$FavouriteSearchToJson(this);
 }

@@ -1,14 +1,15 @@
-import 'package:collabcar/models/search.dart';
-import 'package:collabcar/providers/history_provider.dart';
+import 'package:collabcar/models/favourite_search.dart';
+import 'package:collabcar/providers/favourite_search_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class HistoryTile extends StatelessWidget {
-  const HistoryTile({required this.history, required this.provider, Key? key})
+class FavouriteSearchTile extends StatelessWidget {
+  const FavouriteSearchTile(
+      {required this.favourite, required this.provider, Key? key})
       : super(key: key);
 
-  final Search history;
-  final HistoryProvider provider;
+  final FavouriteSearch favourite;
+  final FavouriteSearchProvider provider;
 
   DataRow buildHistoryElements(String title, var data) {
     return DataRow(
@@ -48,7 +49,7 @@ class HistoryTile extends StatelessWidget {
         children: [
           SlidableAction(
             onPressed: (context) {
-              provider.deleteHistoryElement(history.id);
+              provider.deleteFavouriteElement(favourite.id);
             },
             backgroundColor: const Color(0xFFFE4A49),
             foregroundColor: Colors.white,
@@ -78,7 +79,7 @@ class HistoryTile extends StatelessWidget {
                   ),
                   Flexible(
                     child: Text(
-                      history.placeFrom?.address ??
+                      favourite.placeFrom?.address ??
                           'Nem volt megadva kiinduló állomás.',
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -107,7 +108,7 @@ class HistoryTile extends StatelessWidget {
                   ),
                   Flexible(
                     child: Text(
-                      history.placeTo?.address ??
+                      favourite.placeTo?.address ??
                           'Nem volt megadva célállomás.',
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -130,16 +131,17 @@ class HistoryTile extends StatelessWidget {
                     DataColumn(label: Container()),
                   ],
                   rows: [
-                    buildHistoryElements('Keresett időpont:', history.date),
+                    buildHistoryElements('Keresett időpont:', favourite.date),
                     buildHistoryElements(
-                        'Ülések száma minimum:', history.minSeatingCapacity),
-                    buildHistoryElements('Maximális ár:', history.maxPrice),
-                    buildHistoryElements('Vezető neve:', history.driverName),
+                        'Ülések száma minimum:', favourite.minSeatingCapacity),
+                    buildHistoryElements('Maximális ár:', favourite.maxPrice),
+                    buildHistoryElements('Vezető neve:', favourite.driverName),
                     buildHistoryElements(
-                        'Állatok szállítása:', history.canTransportPets),
+                        'Állatok szállítása:', favourite.canTransportPets),
                     buildHistoryElements(
-                        'Bicikli szállítása:', history.canTransportBicycle),
-                    buildHistoryElements('Autópálya:', history.isGoingHighway),
+                        'Bicikli szállítása:', favourite.canTransportBicycle),
+                    buildHistoryElements(
+                        'Autópálya:', favourite.isGoingHighway),
                   ],
                 ),
               ],
