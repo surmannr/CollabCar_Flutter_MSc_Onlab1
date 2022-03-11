@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'car.g.dart';
+
+@JsonSerializable()
 class Car {
   final int id;
   final String registrationNumber;
@@ -20,4 +25,8 @@ class Car {
     required this.imageUrl,
     required this.userId,
   });
+
+  factory Car.fromJson(Map<String, dynamic> json) => _$CarFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CarToJson(this);
 }

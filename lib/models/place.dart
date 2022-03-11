@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'place.g.dart';
+
+@JsonSerializable()
 class Place {
   late double latitude;
   late double longitude;
@@ -9,15 +14,7 @@ class Place {
     required this.address,
   });
 
-  Place.fromJson(Map<String, dynamic> json) {
-    latitude = json['latitude'];
-    longitude = json['longitude'];
-    address = json['address'];
-  }
+  factory Place.fromJson(Map<String, dynamic> json) => _$PlaceFromJson(json);
 
-  static Map<String, dynamic> toJson(Place value) => {
-        'latitude': value.latitude,
-        'longitude': value.longitude,
-        'address': value.address,
-      };
+  Map<String, dynamic> toJson() => _$PlaceToJson(this);
 }

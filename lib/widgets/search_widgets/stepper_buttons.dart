@@ -58,7 +58,7 @@ class StepperButtons extends StatelessWidget {
                 print(jsonEncode(
                   searchData.search,
                   toEncodable: (nonEncodable) => nonEncodable is Search
-                      ? Search.toJson(nonEncodable)
+                      ? nonEncodable.toJson()
                       : throw Exception('Nem'),
                 ));
                 historyData.addNewHistoryElement(searchData.search);

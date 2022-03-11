@@ -5,6 +5,7 @@ class CustomTextFieldWithLabel extends StatelessWidget {
   final String labelText;
   final String hintText;
   final void Function(String)? onFunction;
+  final VoidCallback? onTap;
   final TextInputType inputType;
   final IconData icon;
 
@@ -12,9 +13,10 @@ class CustomTextFieldWithLabel extends StatelessWidget {
     required this.textFieldController,
     required this.labelText,
     required this.hintText,
-    required this.onFunction,
+    this.onFunction,
     required this.inputType,
     required this.icon,
+    this.onTap,
     Key? key,
   }) : super(key: key);
 
@@ -53,6 +55,7 @@ class CustomTextFieldWithLabel extends StatelessWidget {
         ),
       ),
       onChanged: onFunction,
+      onTap: onTap,
     );
   }
 }

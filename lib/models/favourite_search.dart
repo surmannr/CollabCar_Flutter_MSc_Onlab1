@@ -1,6 +1,11 @@
 import 'package:collabcar/models/place.dart';
 import 'package:collabcar/models/search.dart';
 
+import 'package:json_annotation/json_annotation.dart';
+
+part 'favourite_search.g.dart';
+
+@JsonSerializable()
 class FavouriteSearch extends Search {
   final int id;
   final int userId;
@@ -30,4 +35,9 @@ class FavouriteSearch extends Search {
           canTransportBicycle: canTransportBicycle,
           isGoingHighway: isGoingHighway,
         );
+
+  factory FavouriteSearch.fromJson(Map<String, dynamic> json) =>
+      _$FavouriteSearchFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FavouriteSearchToJson(this);
 }

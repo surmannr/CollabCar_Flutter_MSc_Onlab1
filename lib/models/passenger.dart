@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'passenger.g.dart';
+
+@JsonSerializable()
 class Passenger {
   final int serviceId;
   final int userId;
@@ -8,4 +13,9 @@ class Passenger {
     required this.userId,
     required this.isAccepted,
   });
+
+  factory Passenger.fromJson(Map<String, dynamic> json) =>
+      _$PassengerFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PassengerToJson(this);
 }
