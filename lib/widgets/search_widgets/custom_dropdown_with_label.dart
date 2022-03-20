@@ -38,7 +38,7 @@ class CustomDropdownWithLabel extends StatelessWidget {
         CoolDropdown(
           resultWidth: double.infinity,
           placeholder: placeHolderText,
-          defaultValue: data,
+          defaultValue: null,
           placeholderTS: TextStyle(
             color: Colors.grey.withOpacity(0.7),
             fontSize: 16,

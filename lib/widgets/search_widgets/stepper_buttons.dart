@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:collabcar/providers/history_provider.dart';
 import 'package:collabcar/providers/search_provider.dart';
+import 'package:collabcar/screens/service_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/search.dart';
@@ -54,14 +55,14 @@ class StepperButtons extends StatelessWidget {
               style: ButtonStyle(
                   backgroundColor:
                       MaterialStateProperty.all(Theme.of(context).cardColor)),
-              onPressed: () {
-                print(jsonEncode(
-                  searchData.search,
-                  toEncodable: (nonEncodable) => nonEncodable is Search
-                      ? nonEncodable.toJson()
-                      : throw Exception('Nem'),
-                ));
+              onPressed: () async {
                 historyData.addNewHistoryElement(searchData.search);
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ServiceScreen(search: searchData.search)),
+                );
                 searchData.clearSearch();
               },
               child: const Text(

@@ -1,20 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collabcar/providers/favourite_search_provider.dart';
 import 'package:collabcar/providers/history_provider.dart';
 import 'package:collabcar/providers/search_provider.dart';
+import 'package:collabcar/providers/service_provider.dart';
 import 'package:collabcar/screens/login_screen.dart';
 import 'package:collabcar/screens/main_screen.dart';
 import 'package:collabcar/screens/search_screen.dart';
+import 'package:collabcar/screens/service_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
     SystemUiOverlay.bottom, //This line is used for showing the bottom bar
   ]);
-
+  await Firebase.initializeApp();
   runApp(const CollabCarApp());
 }
 
@@ -37,6 +42,9 @@ class CollabCarApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: FavouriteSearchProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: ServiceProvider(),
         )
       ],
       child: MaterialApp(
@@ -60,6 +68,7 @@ class CollabCarApp extends StatelessWidget {
         routes: {
           SearchScreen.routeName: (context) => const SearchScreen(),
           LoginScreen.routeName: (context) => const LoginScreen(),
+          ServiceScreen.routeName: (context) => const ServiceScreen(),
         },
       ),
     );

@@ -1,12 +1,15 @@
 import 'package:collabcar/models/place.dart';
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:uuid/uuid.dart';
+
+import 'car.dart';
 
 part 'service.g.dart';
 
 @JsonSerializable()
 class Service {
-  final int id;
+  String id;
   final Place placeFrom;
   final Place placeTo;
   final DateTime date;
@@ -15,10 +18,9 @@ class Service {
   final bool canTransportBicycle;
   final bool isGoingHighway;
   final int creatorUserId;
-  final int selectedCarId;
+  final Car selectedCar;
 
   Service({
-    required this.id,
     required this.placeFrom,
     required this.placeTo,
     required this.date,
@@ -27,8 +29,9 @@ class Service {
     required this.canTransportBicycle,
     required this.isGoingHighway,
     required this.creatorUserId,
-    required this.selectedCarId,
-  });
+    required this.selectedCar,
+    var uuid = const Uuid(),
+  }) : id = uuid.v1();
 
   factory Service.fromJson(Map<String, dynamic> json) =>
       _$ServiceFromJson(json);

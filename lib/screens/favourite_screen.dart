@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collabcar/models/favourite_search.dart';
 import 'package:collabcar/providers/favourite_search_provider.dart';
 import 'package:collabcar/widgets/favourites_widgets/favourite_search_tile.dart';
@@ -14,12 +15,13 @@ class FavouriteScreen extends StatefulWidget {
 class _FavouriteScreenState extends State<FavouriteScreen> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Provider.of<FavouriteSearchProvider>(context).getFromFirebase(),
-        builder: (context, snapshot) {
+    return StreamBuilder(
+        stream: Provider.of<FavouriteSearchProvider>(context).getFromFirebase(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else {
+            final documents = snapshot.data!.docs;
             if (snapshot.error != null) {
               // ...
               // Do error handling stuff
@@ -27,32 +29,33 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                 child: Text('An error occurred!'),
               );
             } else {
-              if (snapshot.hasData &&
-                  (snapshot.data as List<FavouriteSearch>).isEmpty) {
+              if (snapshot.hasData && documents.isEmpty) {
                 return const Center(
                   child: Text('Nincs kedvenc keresési előzményed.'),
                 );
               } else {
-                return Consumer<FavouriteSearchProvider>(
-                  builder: (context, value, child) => ListView.builder(
-                    itemBuilder: (BuildContext context, int index) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            FavouriteSearchTile(
-                              favourite: value.favourites[index],
-                              provider: value,
-                            ),
-                          ],
-                        ),
+                return ListView.builder(
+                  itemBuilder: (BuildContext context, int index) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          FavouriteSearchTile(
+                            favourite:
+                                documents[index].data() as FavouriteSearch,
+                            provider:
+                                Provider.of<FavouriteSearchProvider>(context)
+                                    .deleteFavouriteElement,
+                            documentId: documents[index].reference.id,
+                          ),
+                        ],
                       ),
                     ),
-                    itemCount: value.favourites.length,
                   ),
+                  itemCount: documents.length,
                 );
               }
             }

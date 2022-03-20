@@ -5,11 +5,15 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 class FavouriteSearchTile extends StatelessWidget {
   const FavouriteSearchTile(
-      {required this.favourite, required this.provider, Key? key})
+      {required this.favourite,
+      required this.provider,
+      required this.documentId,
+      Key? key})
       : super(key: key);
 
   final FavouriteSearch favourite;
-  final FavouriteSearchProvider provider;
+  final Function provider;
+  final String documentId;
 
   DataRow buildHistoryElements(String title, var data) {
     return DataRow(
@@ -49,7 +53,7 @@ class FavouriteSearchTile extends StatelessWidget {
         children: [
           SlidableAction(
             onPressed: (context) {
-              provider.deleteFavouriteElement(favourite.id);
+              provider(documentId);
             },
             backgroundColor: const Color(0xFFFE4A49),
             foregroundColor: Colors.white,

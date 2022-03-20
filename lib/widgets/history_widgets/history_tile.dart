@@ -1,7 +1,10 @@
+import 'package:collabcar/models/favourite_search.dart';
 import 'package:collabcar/models/search.dart';
+import 'package:collabcar/providers/favourite_search_provider.dart';
 import 'package:collabcar/providers/history_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
 
 class HistoryTile extends StatelessWidget {
   const HistoryTile({required this.history, required this.provider, Key? key})
@@ -54,6 +57,30 @@ class HistoryTile extends StatelessWidget {
             foregroundColor: Colors.white,
             icon: Icons.delete,
             label: 'Törlés',
+          ),
+          SlidableAction(
+            onPressed: (context) {
+              Provider.of<FavouriteSearchProvider>(context, listen: false)
+                  .addNewFavouriteElement(
+                FavouriteSearch(
+                  userId: 2, // TODO
+                  driverId: 3, // TODO
+                  placeFrom: history.placeFrom,
+                  placeTo: history.placeTo,
+                  date: history.date,
+                  minSeatingCapacity: history.minSeatingCapacity,
+                  maxPrice: history.maxPrice,
+                  driverName: history.driverName,
+                  canTransportPets: history.canTransportPets,
+                  canTransportBicycle: history.canTransportBicycle,
+                  isGoingHighway: history.isGoingHighway,
+                ),
+              );
+            },
+            backgroundColor: Colors.indigo,
+            foregroundColor: Colors.white,
+            icon: Icons.favorite,
+            label: 'Kedvenc',
           ),
         ],
       ),

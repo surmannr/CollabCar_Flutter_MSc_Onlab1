@@ -1,3 +1,5 @@
+import 'package:collabcar/screens/main_screen.dart';
+import 'package:collabcar/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
 class MainDrawer extends StatefulWidget {
@@ -84,9 +86,14 @@ class _MainDrawerState extends State<MainDrawer> {
             child: TabBarView(children: [
               Column(
                 children: [
-                  buildListTile('Keresés', Icons.search, () {
-                    //Navigator.of(context).pushReplacementNamed('/');
-                  }),
+                  buildListTile(
+                      'Keresés',
+                      Icons.search,
+                      () async => await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MainScreen(),
+                          ))),
                   buildListTile('Foglalások', Icons.book_rounded, () {
                     //Navigator.of(context).pushReplacementNamed('/');
                   }),

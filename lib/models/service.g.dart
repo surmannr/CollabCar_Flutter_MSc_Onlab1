@@ -7,7 +7,6 @@ part of 'service.dart';
 // **************************************************************************
 
 Service _$ServiceFromJson(Map<String, dynamic> json) => Service(
-      id: json['id'] as int,
       placeFrom: Place.fromJson(json['placeFrom'] as Map<String, dynamic>),
       placeTo: Place.fromJson(json['placeTo'] as Map<String, dynamic>),
       date: DateTime.parse(json['date'] as String),
@@ -16,8 +15,8 @@ Service _$ServiceFromJson(Map<String, dynamic> json) => Service(
       canTransportBicycle: json['canTransportBicycle'] as bool,
       isGoingHighway: json['isGoingHighway'] as bool,
       creatorUserId: json['creatorUserId'] as int,
-      selectedCarId: json['selectedCarId'] as int,
-    );
+      selectedCar: Car.fromJson(json['selectedCar'] as Map<String, dynamic>),
+    )..id = json['id'] as String;
 
 Map<String, dynamic> _$ServiceToJson(Service instance) => <String, dynamic>{
       'id': instance.id,
@@ -29,5 +28,5 @@ Map<String, dynamic> _$ServiceToJson(Service instance) => <String, dynamic>{
       'canTransportBicycle': instance.canTransportBicycle,
       'isGoingHighway': instance.isGoingHighway,
       'creatorUserId': instance.creatorUserId,
-      'selectedCarId': instance.selectedCarId,
+      'selectedCar': instance.selectedCar,
     };

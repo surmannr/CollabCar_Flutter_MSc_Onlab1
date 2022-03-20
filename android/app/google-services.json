@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "90125966880",
+    "project_id": "collabcar-msconlab",
+    "storage_bucket": "collabcar-msconlab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:90125966880:android:1c7f188da0a1f69e4c6645",
+        "android_client_info": {
+          "package_name": "com.example.collabcar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "90125966880-idf8lvlsgbuu1a94ljcmidff8db7vrto.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFdwpKvs2tJjVja-HwLtAAswf4_uYGbS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "90125966880-idf8lvlsgbuu1a94ljcmidff8db7vrto.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

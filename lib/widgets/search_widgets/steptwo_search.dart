@@ -74,8 +74,7 @@ class _StepTwoSearchState extends State<StepTwoSearch> {
             labelText: 'Állatok szállítása',
             data: widget.searchData.search.canTransportPets,
             func: (value) {
-              widget.searchData.search.canTransportPets =
-                  value['value'] as bool?;
+              widget.searchData.search.canTransportPets = value['value'];
             },
           ),
           const SizedBox(
@@ -86,8 +85,7 @@ class _StepTwoSearchState extends State<StepTwoSearch> {
             labelText: 'Kerékpárszállítás',
             data: widget.searchData.search.canTransportBicycle,
             func: (value) {
-              widget.searchData.search.canTransportBicycle =
-                  value['value'] as bool?;
+              widget.searchData.search.canTransportBicycle = value['value'];
             },
           ),
           const SizedBox(
@@ -98,7 +96,7 @@ class _StepTwoSearchState extends State<StepTwoSearch> {
             labelText: 'Autópálya',
             data: widget.searchData.search.isGoingHighway,
             func: (value) {
-              widget.searchData.search.isGoingHighway = value['value'] as bool?;
+              widget.searchData.search.isGoingHighway = value['value'];
             },
           ),
         ],
