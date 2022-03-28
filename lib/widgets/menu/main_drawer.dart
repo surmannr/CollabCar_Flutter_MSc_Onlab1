@@ -52,7 +52,7 @@ class _MainDrawerState extends State<MainDrawer> {
     return DefaultTabController(
       length: 2,
       child: Drawer(
-        backgroundColor: Theme.of(context).canvasColor,
+        backgroundColor: const Color.fromRGBO(246, 246, 246, 1.0),
         child: Column(children: [
           const SizedBox(
             height: 20,

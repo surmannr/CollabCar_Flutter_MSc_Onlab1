@@ -34,4 +34,36 @@ class Search {
   factory Search.fromJson(Map<String, dynamic> json) => _$SearchFromJson(json);
 
   Map<String, dynamic> toJson() => _$SearchToJson(this);
+
+  factory Search.fromFireBase(Map<String, dynamic> json) {
+    var search = _$SearchFromJson(json);
+    if (json['placeTo.address'] != null) {
+      search.placeTo = Place(
+          latitude: (json['placeTo.latitude'] as num).toDouble(),
+          longitude: (json['placeTo.longitude'] as num).toDouble(),
+          address: json['placeTo.address'] as String);
+    }
+    if (json['placeFrom.address'] != null) {
+      search.placeFrom = Place(
+          latitude: (json['placeFrom.latitude'] as num).toDouble(),
+          longitude: (json['placeFrom.longitude'] as num).toDouble(),
+          address: json['placeFrom.address'] as String);
+    }
+    return search;
+  }
+
+  Map<String, dynamic> toFireBase() {
+    var json = _$SearchToJson(this);
+    json.remove('placeFrom');
+    json.remove('placeTo');
+    json.addAll({
+      'placeFrom.longitude': placeFrom?.longitude,
+      'placeFrom.latitude': placeFrom?.latitude,
+      'placeFrom.address': placeFrom?.address,
+      'placeTo.longitude': placeTo?.longitude,
+      'placeTo.latitude': placeTo?.latitude,
+      'placeTo.address': placeTo?.address,
+    });
+    return json;
+  }
 }

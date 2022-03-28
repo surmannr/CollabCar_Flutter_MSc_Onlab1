@@ -64,7 +64,7 @@ class CollabCarApp extends StatelessWidget {
           ),
           textTheme: const TextTheme().apply(displayColor: Colors.black),
         ),
-        home: const MainScreen(),
+        home: const LoginScreen(),
         routes: {
           SearchScreen.routeName: (context) => const SearchScreen(),
           LoginScreen.routeName: (context) => const LoginScreen(),

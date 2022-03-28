@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:collabcar/models/favourite_search.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,8 +9,8 @@ class FavouriteSearchProvider with ChangeNotifier {
       .collection('favourite_search')
       .withConverter<FavouriteSearch>(
           fromFirestore: (snapshot, _) =>
-              FavouriteSearch.fromJson(snapshot.data()!),
-          toFirestore: (model, _) => model.toJson());
+              FavouriteSearch.fromFireBase(snapshot.data()!),
+          toFirestore: (model, _) => model.toFireBase());
 
   Stream<QuerySnapshot> getFromFirebase() {
     return _favouriteSearch.snapshots();

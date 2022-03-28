@@ -1,28 +1,45 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collabcar/widgets/auth_widgets/login_form.dart';
+import 'package:collabcar/widgets/auth_widgets/register_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:collabcar/models/user.dart' as my_user;
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
-  static const routeName = '/login';
+  static const routeName = '/register';
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final _auth = FirebaseAuth.instance;
 
-  void _submitLoginForm(String email, String password) async {
-    String message = "Hiba a bejelentkezés során";
+  void _submitRegisterForm(String name, String email, String password,
+      DateTime birthDate, String telephoneNumber, String imageUrl) async {
+    String message = "Hiba a regisztráció során";
     try {
-      var authResult = await _auth.signInWithEmailAndPassword(
+      var authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      if (authResult.user != null) {}
+
+      if (authResult.user != null) {
+        var user = my_user.User(
+            id: authResult.user!.uid,
+            email: email,
+            password: password,
+            name: name,
+            hasCarpoolService: false,
+            birthDate: birthDate,
+            telephone: telephoneNumber,
+            imageUrl: imageUrl);
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(authResult.user!.uid)
+            .set(user.toJson());
+      }
     } on PlatformException catch (err) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(err.message == null ? message : err.message!),
@@ -42,20 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Theme.of(context).backgroundColor.withAlpha(235),
       body: Column(
         children: [
-          Flexible(
-            child: Container(
-              color: const Color.fromRGBO(246, 246, 246, 1.0),
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Image.asset(
-                  'assets/images/logo.png',
-                  width: double.infinity,
-                  fit: BoxFit.fitHeight,
-                ),
-              ),
-            ),
-            flex: 1,
-          ),
           Expanded(
             flex: 2,
             child: SingleChildScrollView(
@@ -65,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 50,
                   ),
                   const Text(
-                    'Bejelentkezés',
+                    'Regisztrálás',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 35.0,
@@ -74,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  LoginForm(submitLogin: _submitLoginForm),
+                  RegisterForm(submitRegister: _submitRegisterForm),
                 ],
               ),
             ),
