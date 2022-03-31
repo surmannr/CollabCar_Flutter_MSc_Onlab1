@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collabcar/helpers/auth.dart';
 import 'package:collabcar/widgets/auth_widgets/register_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,25 +22,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       DateTime birthDate, String telephoneNumber, String imageUrl) async {
     String message = "Hiba a regisztráció során";
     try {
-      var authResult = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-
-      if (authResult.user != null) {
-        var user = my_user.User(
-            id: authResult.user!.uid,
-            email: email,
-            password: password,
-            name: name,
-            hasCarpoolService: false,
-            birthDate: birthDate,
-            telephone: telephoneNumber,
-            imageUrl: imageUrl);
-
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(authResult.user!.uid)
-            .set(user.toJson());
-      }
+      await Auth.createUserWithEmailAndPassword(
+          name, email, password, birthDate, telephoneNumber, imageUrl);
     } on PlatformException catch (err) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(err.message == null ? message : err.message!),

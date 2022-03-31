@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collabcar/helpers/auth.dart';
+import 'package:collabcar/providers/logged_user_provider.dart';
+import 'package:collabcar/screens/main_screen.dart';
 import 'package:collabcar/widgets/auth_widgets/login_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:collabcar/models/user.dart' as my_user;
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -20,9 +24,14 @@ class _LoginScreenState extends State<LoginScreen> {
   void _submitLoginForm(String email, String password) async {
     String message = "Hiba a bejelentkezés során";
     try {
-      var authResult = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      if (authResult.user != null) {}
+      String? userId =
+          await Auth.signInWithEmailAndPassword(email, password, context);
+
+      if (userId != null) {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => const MainScreen()),
+        );
+      }
     } on PlatformException catch (err) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(err.message == null ? message : err.message!),

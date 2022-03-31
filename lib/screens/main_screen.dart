@@ -1,7 +1,11 @@
+import 'package:collabcar/helpers/auth.dart';
+import 'package:collabcar/providers/logged_user_provider.dart';
 import 'package:collabcar/screens/favourite_screen.dart';
 import 'package:collabcar/screens/history_screen.dart';
+import 'package:collabcar/screens/login_screen.dart';
 import 'package:collabcar/screens/search_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/menu/main_drawer.dart';
 
@@ -72,5 +76,26 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
+  }
+}
+
+class AuthScreen extends StatefulWidget {
+  const AuthScreen({Key? key}) : super(key: key);
+
+  @override
+  State<AuthScreen> createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  @override
+  Widget build(BuildContext context) {
+    final IsAuth isAuthenticated =
+        Provider.of<LoggedUserProvider>(context).isAuthenticated;
+    switch (isAuthenticated) {
+      case IsAuth.signedIn:
+        return const SearchScreen();
+      case IsAuth.signedOut:
+        return const LoginScreen();
+    }
   }
 }
