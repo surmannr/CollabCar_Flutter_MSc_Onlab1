@@ -14,7 +14,7 @@ Service _$ServiceFromJson(Map<String, dynamic> json) => Service(
       canTransportPets: json['canTransportPets'] as bool,
       canTransportBicycle: json['canTransportBicycle'] as bool,
       isGoingHighway: json['isGoingHighway'] as bool,
-      creatorUserId: json['creatorUserId'] as int,
+      creatorUserId: json['creatorUserId'] as String,
       selectedCar: Car.fromJson(json['selectedCar'] as Map<String, dynamic>),
     )..id = json['id'] as String;
 

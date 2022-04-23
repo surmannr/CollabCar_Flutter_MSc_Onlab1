@@ -6,6 +6,7 @@ import 'package:collabcar/screens/login_screen.dart';
 import 'package:collabcar/screens/main_screen.dart';
 import 'package:collabcar/screens/profile_settings_screen.dart';
 import 'package:collabcar/screens/search_screen.dart';
+import 'package:collabcar/screens/service_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -90,7 +91,7 @@ class _MainDrawerState extends State<MainDrawer> {
             ),
           ),
           TabBar(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             labelColor: Colors.black,
             tabs: [
               const Tab(
@@ -127,8 +128,14 @@ class _MainDrawerState extends State<MainDrawer> {
                     buildListTile('Utasaim', Icons.assignment_ind_rounded, () {
                       //Navigator.of(context).pushReplacementNamed('/');
                     }),
-                    buildListTile('Hirdetéseim', Icons.analytics, () {
-                      //Navigator.of(context).pushReplacementNamed('/');
+                    buildListTile('Hirdetéseim', Icons.analytics, () async {
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ServiceScreen(
+                              search: null,
+                            ),
+                          ));
                     }),
                     ...buildSameTilesForBoth(),
                   ],

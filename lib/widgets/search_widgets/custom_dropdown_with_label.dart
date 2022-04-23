@@ -7,6 +7,7 @@ class CustomDropdownWithLabel extends StatelessWidget {
     required this.labelText,
     required this.data,
     required this.func,
+    this.search = true,
     Key? key,
   }) : super(key: key);
 
@@ -16,10 +17,16 @@ class CustomDropdownWithLabel extends StatelessWidget {
     {'label': 'Nem számít', 'value': null},
   ];
 
+  final List dropdownItemListForNew = [
+    {'label': 'Igen', 'value': true},
+    {'label': 'Nem', 'value': false},
+  ];
+
   final String placeHolderText;
   final String labelText;
   final bool? data;
   final Function func;
+  bool search;
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +54,13 @@ class CustomDropdownWithLabel extends StatelessWidget {
             color: Colors.black,
             fontSize: 16,
           ),
-          dropdownList: dropdownItemList,
+          dropdownList: search ? dropdownItemList : dropdownItemListForNew,
           isResultLabel: true,
           isDropdownLabel: true,
           onChange: func,
           dropdownItemReverse: true,
           dropdownItemMainAxis: MainAxisAlignment.start,
-          dropdownHeight: 200,
+          dropdownHeight: search ? 200 : 120,
           resultMainAxis: MainAxisAlignment.start,
           dropdownWidth: 200,
           labelIconGap: 20,

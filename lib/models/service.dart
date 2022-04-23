@@ -10,15 +10,15 @@ part 'service.g.dart';
 @JsonSerializable()
 class Service {
   String id;
-  late final Place placeFrom;
-  late final Place placeTo;
-  final DateTime date;
-  final int price;
-  final bool canTransportPets;
-  final bool canTransportBicycle;
-  final bool isGoingHighway;
-  final int creatorUserId;
-  final Car selectedCar;
+  late Place placeFrom;
+  late Place placeTo;
+  DateTime date;
+  int price;
+  bool canTransportPets;
+  bool canTransportBicycle;
+  bool isGoingHighway;
+  String creatorUserId;
+  Car selectedCar;
 
   Service({
     required this.placeFrom,
@@ -52,6 +52,20 @@ class Service {
           longitude: (json['placeFrom.longitude'] as num).toDouble(),
           address: json['placeFrom.address'] as String);
     }
+
+    service.selectedCar = Car(
+      id: (json['selectedCar.id'] as String),
+      registrationNumber: (json['selectedCar.registrationNumber'] as String),
+      year: (json['selectedCar.year'] as num).toInt(),
+      type: (json['selectedCar.type'] as String),
+      technicalInspectionExpirationDate: DateTime.parse(
+          json['selectedCar.technicalInspectionExpirationDate'] as String),
+      seatingCapacity: (json['selectedCar.seatingCapacity'] as num).toInt(),
+      trunkCapacity: (json['selectedCar.trunkCapacity'] as num).toInt(),
+      imageUrl: (json['selectedCar.imageUrl'] as String),
+      userId: (json['selectedCar.userId'] as String),
+    );
+
     return service;
   }
 
@@ -59,6 +73,7 @@ class Service {
     var json = _$ServiceToJson(this);
     json.remove('placeFrom');
     json.remove('placeTo');
+    json.remove('selectedCar');
     json.addAll({
       'placeFrom.longitude': placeFrom.longitude,
       'placeFrom.latitude': placeFrom.latitude,
@@ -66,6 +81,16 @@ class Service {
       'placeTo.longitude': placeTo.longitude,
       'placeTo.latitude': placeTo.latitude,
       'placeTo.address': placeTo.address,
+      'selectedCar.id': selectedCar.id,
+      'selectedCar.registrationNumber': selectedCar.registrationNumber,
+      'selectedCar.year': selectedCar.year,
+      'selectedCar.type': selectedCar.type,
+      'selectedCar.imageUrl': selectedCar.imageUrl,
+      'selectedCar.userId': selectedCar.userId,
+      'selectedCar.trunkCapacity': selectedCar.trunkCapacity,
+      'selectedCar.seatingCapacity': selectedCar.seatingCapacity,
+      'selectedCar.technicalInspectionExpirationDate':
+          selectedCar.technicalInspectionExpirationDate,
     });
     return json;
   }
