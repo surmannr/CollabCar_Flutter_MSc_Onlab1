@@ -4,15 +4,15 @@ part 'car.g.dart';
 
 @JsonSerializable()
 class Car {
-  final int id;
-  final String registrationNumber;
-  final int year;
-  final String type;
-  final DateTime technicalInspectionExpirationDate;
-  final int seatingCapacity;
-  final int trunkCapacity;
-  final String imageUrl;
-  final int userId;
+  String id;
+  String registrationNumber;
+  int year;
+  String type;
+  DateTime technicalInspectionExpirationDate;
+  int seatingCapacity;
+  int trunkCapacity;
+  String imageUrl;
+  String userId;
 
   Car({
     required this.id,

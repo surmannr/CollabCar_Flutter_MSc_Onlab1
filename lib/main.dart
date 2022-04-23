@@ -4,8 +4,10 @@ import 'package:collabcar/providers/history_provider.dart';
 import 'package:collabcar/providers/logged_user_provider.dart';
 import 'package:collabcar/providers/search_provider.dart';
 import 'package:collabcar/providers/service_provider.dart';
+import 'package:collabcar/screens/car_settings_screen.dart';
 import 'package:collabcar/screens/login_screen.dart';
 import 'package:collabcar/screens/main_screen.dart';
+import 'package:collabcar/screens/profile_settings_screen.dart';
 import 'package:collabcar/screens/register_screen.dart';
 import 'package:collabcar/screens/search_screen.dart';
 import 'package:collabcar/screens/service_screen.dart';
@@ -75,6 +77,9 @@ class CollabCarApp extends StatelessWidget {
           LoginScreen.routeName: (context) => const LoginScreen(),
           ServiceScreen.routeName: (context) => const ServiceScreen(),
           RegisterScreen.routeName: (context) => const RegisterScreen(),
+          ProfileSettingsScreen.routeName: (context) =>
+              const ProfileSettingsScreen(),
+          CarSettingsScreen.routeName: (context) => const CarSettingsScreen(),
         },
       ),
     );

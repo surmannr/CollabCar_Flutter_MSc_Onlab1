@@ -4,6 +4,7 @@ import 'package:collabcar/screens/favourite_screen.dart';
 import 'package:collabcar/screens/history_screen.dart';
 import 'package:collabcar/screens/login_screen.dart';
 import 'package:collabcar/screens/search_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -89,13 +90,14 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
-    final IsAuth isAuthenticated =
-        Provider.of<LoggedUserProvider>(context).isAuthenticated;
-    switch (isAuthenticated) {
-      case IsAuth.signedIn:
-        return const SearchScreen();
-      case IsAuth.signedOut:
-        return const LoginScreen();
-    }
+    return FutureBuilder<User?>(
+        future: Auth.currentUser(),
+        builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+          if (snapshot.hasData) {
+            Provider.of<LoggedUserProvider>(context).login(snapshot.data!);
+            return const MainScreen();
+          }
+          return const LoginScreen();
+        });
   }
 }

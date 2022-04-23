@@ -1,84 +1,27 @@
-import 'package:collabcar/models/car.dart';
-import 'package:collabcar/models/place.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collabcar/models/search.dart';
 import 'package:flutter/material.dart';
 
 import 'package:collabcar/models/service.dart';
 
 class ServiceProvider with ChangeNotifier {
-  static Car tempCar = Car(
-      id: 1,
-      registrationNumber: "200412",
-      year: 2005,
-      type: "Ford",
-      technicalInspectionExpirationDate: DateTime(2026),
-      seatingCapacity: 4,
-      trunkCapacity: 3,
-      imageUrl: "majd lesz",
-      userId: 2);
+  final CollectionReference _services = FirebaseFirestore.instance
+      .collection('service')
+      .withConverter<Service>(
+          fromFirestore: (snapshot, _) =>
+              Service.fromFireBase(snapshot.data()!),
+          toFirestore: (model, _) => model.toFireBase());
 
-  final List<Service> _services = [
-    Service(
-      placeFrom: Place(latitude: 0, longitude: 0, address: "Sorompó"),
-      placeTo: Place(latitude: 0, longitude: 0, address: "Áruház"),
-      date: DateTime.now().add(const Duration(days: 3)),
-      price: 10000,
-      canTransportPets: true,
-      canTransportBicycle: false,
-      isGoingHighway: false,
-      creatorUserId: 2,
-      selectedCar: tempCar,
-    ),
-    Service(
-      placeFrom: Place(latitude: 0, longitude: 0, address: "Micsoda"),
-      placeTo: Place(latitude: 0, longitude: 0, address: "Jó ez"),
-      date: DateTime.now().add(const Duration(days: 2)),
-      price: 1300,
-      canTransportPets: false,
-      canTransportBicycle: false,
-      isGoingHighway: true,
-      creatorUserId: 1,
-      selectedCar: tempCar,
-    ),
-    Service(
-      placeFrom: Place(latitude: 0, longitude: 0, address: "Leves"),
-      placeTo: Place(latitude: 0, longitude: 0, address: "Föld"),
-      date: DateTime.now().add(const Duration(days: 12)),
-      price: 5000,
-      canTransportPets: true,
-      canTransportBicycle: true,
-      isGoingHighway: true,
-      creatorUserId: 2,
-      selectedCar: tempCar,
-    ),
-    Service(
-      placeFrom: Place(latitude: 0, longitude: 0, address: "Létra"),
-      placeTo: Place(latitude: 0, longitude: 0, address: "Dinó"),
-      date: DateTime.now().add(const Duration(days: 12)),
-      price: 5000,
-      canTransportPets: true,
-      canTransportBicycle: true,
-      isGoingHighway: true,
-      creatorUserId: 1,
-      selectedCar: tempCar,
-    ),
-  ];
-
-  List<Service> get services => _services;
-
-  List<Service> get servicesByLoggedUser {
-    return _services
-        .where((element) => element.creatorUserId == 2 /* TODO */)
-        .toList();
+  Stream<QuerySnapshot> getFromFirebase() {
+    return _services.snapshots();
   }
 
-  Future<List<Service>> servicesFilteredBySearch(Search search) async {
-    _filterServices(search);
-    return services;
+  Stream<QuerySnapshot> getFromFirebaseByLoggedUser(String userId) {
+    return _services.where('creatorUserId', isEqualTo: userId).snapshots();
   }
 
-  Future<List<Service>> getFromFirebase() async {
-    return _services;
+  Stream<QuerySnapshot> servicesFilteredBySearch(Search search) {
+    return _services.filterServices(search).snapshots();
   }
 
   void addNewServiceElement(Service service) async {
@@ -88,43 +31,45 @@ class ServiceProvider with ChangeNotifier {
   }
 
   void deleteFavouriteElement(String id) async {
-    _services.removeWhere((element) => element.id == id);
+    await _services.doc(id).delete();
 
     notifyListeners();
   }
+}
 
-  void _filterServices(Search search) {
+extension ServiceFilter on CollectionReference {
+  Query<Object?> filterServices(Search search) {
+    Query<Object?> query = orderBy('date');
     if (search.placeTo != null) {
       if (search.placeTo!.address.isNotEmpty) {
-        _services.retainWhere((element) =>
-            element.placeTo.address.contains(search.placeTo!.address));
+        query.where('placeTo.address',
+            arrayContains: search.placeTo!.address.split(' '));
       }
     }
 
     if (search.placeFrom != null) {
       if (search.placeFrom!.address.isNotEmpty) {
-        _services.retainWhere((element) =>
-            element.placeFrom.address.contains(search.placeFrom!.address));
+        query.where('placeFrom.address',
+            arrayContains: search.placeFrom!.address.split(' '));
       }
     }
 
     if (search.maxPrice != null) {
-      _services.retainWhere((element) => element.price <= search.maxPrice!);
+      query.where('price', isLessThanOrEqualTo: search.maxPrice);
     }
 
     if (search.isGoingHighway != null) {
-      _services.retainWhere(
-          (element) => element.isGoingHighway == search.isGoingHighway);
+      query.where('isGoingHighway', isEqualTo: search.isGoingHighway);
     }
 
     if (search.canTransportBicycle != null) {
-      _services.retainWhere((element) =>
-          element.canTransportBicycle == search.canTransportBicycle);
+      query.where('canTransportBicycle', isEqualTo: search.canTransportBicycle);
     }
 
     if (search.canTransportPets != null) {
-      _services.retainWhere(
-          (element) => element.canTransportPets == search.canTransportPets);
+      query.where('canTransportPets', isEqualTo: search.canTransportPets);
     }
+
+    return query;
   }
 }

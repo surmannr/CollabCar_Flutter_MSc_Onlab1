@@ -7,7 +7,7 @@ part of 'car.dart';
 // **************************************************************************
 
 Car _$CarFromJson(Map<String, dynamic> json) => Car(
-      id: json['id'] as int,
+      id: json['id'] as String,
       registrationNumber: json['registrationNumber'] as String,
       year: json['year'] as int,
       type: json['type'] as String,
@@ -16,7 +16,7 @@ Car _$CarFromJson(Map<String, dynamic> json) => Car(
       seatingCapacity: json['seatingCapacity'] as int,
       trunkCapacity: json['trunkCapacity'] as int,
       imageUrl: json['imageUrl'] as String,
-      userId: json['userId'] as int,
+      userId: json['userId'] as String,
     );
 
 Map<String, dynamic> _$CarToJson(Car instance) => <String, dynamic>{

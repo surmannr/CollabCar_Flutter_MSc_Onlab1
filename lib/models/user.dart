@@ -4,14 +4,14 @@ part 'user.g.dart';
 
 @JsonSerializable()
 class User {
-  final String id;
-  final String email;
-  final String password;
-  final String name;
-  final String telephone;
-  final DateTime birthDate;
-  final bool hasCarpoolService;
-  final String imageUrl;
+  String id;
+  String email;
+  String password;
+  String name;
+  String telephone;
+  DateTime birthDate;
+  bool hasCarpoolService;
+  String imageUrl;
 
   User({
     required this.id,

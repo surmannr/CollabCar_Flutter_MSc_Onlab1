@@ -1,6 +1,13 @@
+import 'package:collabcar/helpers/auth.dart';
+import 'package:collabcar/models/user.dart';
+import 'package:collabcar/providers/logged_user_provider.dart';
+import 'package:collabcar/screens/car_settings_screen.dart';
+import 'package:collabcar/screens/login_screen.dart';
 import 'package:collabcar/screens/main_screen.dart';
+import 'package:collabcar/screens/profile_settings_screen.dart';
 import 'package:collabcar/screens/search_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MainDrawer extends StatefulWidget {
   const MainDrawer({Key? key}) : super(key: key);
@@ -10,6 +17,8 @@ class MainDrawer extends StatefulWidget {
 }
 
 class _MainDrawerState extends State<MainDrawer> {
+  bool hasCarpoolService = false;
+
   Widget buildListTile(String title, IconData icon, VoidCallback tapHandler) {
     return ListTile(
       leading: Icon(
@@ -36,21 +45,32 @@ class _MainDrawerState extends State<MainDrawer> {
         endIndent: 15.0,
       ),
       buildListTile('Profilbeállítások', Icons.account_box, () {
-        //Navigator.of(context).pushReplacementNamed('/');
+        Navigator.of(context)
+            .pushReplacementNamed(ProfileSettingsScreen.routeName);
       }),
       buildListTile('Gépjárműbeállítások', Icons.airport_shuttle_rounded, () {
-        //Navigator.of(context).pushReplacementNamed(FiltersScreen.routeName);
+        Navigator.of(context).pushReplacementNamed(CarSettingsScreen.routeName);
       }),
       buildListTile('Kijelentkezés', Icons.logout, () {
-        //Navigator.of(context).pushReplacementNamed(FiltersScreen.routeName);
+        Auth.signOut();
+        Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
       }),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
+    final User? user =
+        Provider.of<LoggedUserProvider>(context, listen: false).user;
+
+    if (user != null) {
+      setState(() {
+        hasCarpoolService = user.hasCarpoolService;
+      });
+    }
+
     return DefaultTabController(
-      length: 2,
+      length: hasCarpoolService ? 2 : 1,
       child: Drawer(
         backgroundColor: const Color.fromRGBO(246, 246, 246, 1.0),
         child: Column(children: [
@@ -69,17 +89,18 @@ class _MainDrawerState extends State<MainDrawer> {
               fit: BoxFit.fitHeight,
             ),
           ),
-          const TabBar(
+          TabBar(
             padding: EdgeInsets.symmetric(horizontal: 20.0),
             labelColor: Colors.black,
             tabs: [
-              Tab(
+              const Tab(
                 text: 'Utas',
                 height: 20.0,
               ),
-              Tab(
-                text: 'Sofőr',
-              ),
+              if (hasCarpoolService)
+                const Tab(
+                  text: 'Sofőr',
+                ),
             ],
           ),
           Expanded(
@@ -100,17 +121,18 @@ class _MainDrawerState extends State<MainDrawer> {
                   ...buildSameTilesForBoth(),
                 ],
               ),
-              Column(
-                children: [
-                  buildListTile('Utasaim', Icons.assignment_ind_rounded, () {
-                    //Navigator.of(context).pushReplacementNamed('/');
-                  }),
-                  buildListTile('Hirdetéseim', Icons.analytics, () {
-                    //Navigator.of(context).pushReplacementNamed('/');
-                  }),
-                  ...buildSameTilesForBoth(),
-                ],
-              ),
+              if (hasCarpoolService)
+                Column(
+                  children: [
+                    buildListTile('Utasaim', Icons.assignment_ind_rounded, () {
+                      //Navigator.of(context).pushReplacementNamed('/');
+                    }),
+                    buildListTile('Hirdetéseim', Icons.analytics, () {
+                      //Navigator.of(context).pushReplacementNamed('/');
+                    }),
+                    ...buildSameTilesForBoth(),
+                  ],
+                ),
             ]),
           ),
         ]),

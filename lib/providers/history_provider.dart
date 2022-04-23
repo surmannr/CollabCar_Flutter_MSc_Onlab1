@@ -25,6 +25,8 @@ class HistoryProvider with ChangeNotifier {
   }
 
   void addNewHistoryElement(Search search) async {
+    await getFromDevice();
+
     _histories.searches.add(search);
     final historyString = jsonEncode(_histories.toJson());
 

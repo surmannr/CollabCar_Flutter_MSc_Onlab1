@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collabcar/models/search.dart';
 import 'package:collabcar/models/service.dart';
 import 'package:collabcar/providers/service_provider.dart';
@@ -11,70 +12,67 @@ class ServicesBySearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 10,
-        ),
-        const Text(
-          "Keresési találatok",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20.0,
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        FutureBuilder(
-            future: Provider.of<ServiceProvider>(context)
-                .servicesFilteredBySearch(search),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else {
-                if (snapshot.error != null) {
-                  // ...
-                  // Do error handling stuff
-                  return const Center(
-                    child: Text('An error occurred!'),
-                  );
-                } else {
-                  if (snapshot.hasData &&
-                      (snapshot.data as List<Service>).isEmpty) {
-                    return const Center(
-                      child: Text('Nincs találat a keresett szolgáltatásra.'),
-                    );
-                  } else {
-                    return Consumer<ServiceProvider>(
-                      builder: (context, value, child) => Expanded(
-                        child: ListView.builder(
-                          itemBuilder: (BuildContext context, int index) =>
-                              Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 4.0),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Card(
-                                      child: Text(value
-                                          .services[index].selectedCar.type)),
-                                ],
+    return StreamBuilder(
+      stream: Provider.of<ServiceProvider>(context)
+          .servicesFilteredBySearch(search),
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          final documents = snapshot.data!.docs;
+          if (snapshot.error != null) {
+            // ...
+            // Do error handling stuff
+            return const Center(
+              child: Text('Hiba történt!'),
+            );
+          } else {
+            if (snapshot.hasData && documents.isEmpty) {
+              return const Center(
+                child: Text('Nincs találat a keresésre.'),
+              );
+            } else {
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text(
+                      "Keresési találatok",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 10,
                               ),
-                            ),
+                              Text('HELLO')
+                            ],
                           ),
-                          itemCount: value.services.length,
                         ),
                       ),
-                    );
-                  }
-                }
-              }
-            })
-      ],
+                      itemCount: documents.length,
+                    ),
+                  ],
+                ),
+              );
+            }
+          }
+        }
+      },
     );
   }
 }
