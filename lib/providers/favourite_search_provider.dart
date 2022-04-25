@@ -12,8 +12,8 @@ class FavouriteSearchProvider with ChangeNotifier {
               FavouriteSearch.fromFireBase(snapshot.data()!),
           toFirestore: (model, _) => model.toFireBase());
 
-  Stream<QuerySnapshot> getFromFirebase() {
-    return _favouriteSearch.snapshots();
+  Stream<QuerySnapshot> getFromFirebase(String userId) {
+    return _favouriteSearch.where("userId", isEqualTo: userId).snapshots();
   }
 
   void addNewFavouriteElement(FavouriteSearch search) async {

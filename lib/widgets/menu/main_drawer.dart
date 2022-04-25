@@ -5,6 +5,7 @@ import 'package:collabcar/screens/car_settings_screen.dart';
 import 'package:collabcar/screens/login_screen.dart';
 import 'package:collabcar/screens/main_screen.dart';
 import 'package:collabcar/screens/profile_settings_screen.dart';
+import 'package:collabcar/screens/reservation_screen.dart';
 import 'package:collabcar/screens/search_screen.dart';
 import 'package:collabcar/screens/service_screen.dart';
 import 'package:flutter/material.dart';
@@ -116,8 +117,12 @@ class _MainDrawerState extends State<MainDrawer> {
                           MaterialPageRoute(
                             builder: (context) => const MainScreen(),
                           ))),
-                  buildListTile('Foglalások', Icons.book_rounded, () {
-                    //Navigator.of(context).pushReplacementNamed('/');
+                  buildListTile('Foglalások', Icons.book_rounded, () async {
+                    await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ReservationScreen(),
+                        ));
                   }),
                   ...buildSameTilesForBoth(),
                 ],

@@ -2,6 +2,7 @@ import 'package:collabcar/models/favourite_search.dart';
 import 'package:collabcar/models/search.dart';
 import 'package:collabcar/providers/favourite_search_provider.dart';
 import 'package:collabcar/providers/history_provider.dart';
+import 'package:collabcar/providers/logged_user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -60,11 +61,14 @@ class HistoryTile extends StatelessWidget {
           ),
           SlidableAction(
             onPressed: (context) {
+              var userId =
+                  Provider.of<LoggedUserProvider>(context, listen: false)
+                      .user!
+                      .id;
               Provider.of<FavouriteSearchProvider>(context, listen: false)
                   .addNewFavouriteElement(
                 FavouriteSearch(
-                  userId: 2, // TODO
-                  driverId: 3, // TODO
+                  userId: userId,
                   placeFrom: history.placeFrom,
                   placeTo: history.placeTo,
                   date: history.date,

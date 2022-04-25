@@ -7,12 +7,10 @@ part 'favourite_search.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class FavouriteSearch extends Search {
-  final int userId;
-  final int driverId;
+  final String userId;
 
   FavouriteSearch({
     required this.userId,
-    required this.driverId,
     Place? placeFrom,
     Place? placeTo,
     required DateTime date,

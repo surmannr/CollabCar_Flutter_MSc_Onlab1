@@ -51,14 +51,14 @@ class ServiceProvider with ChangeNotifier {
     var serviceApplication = await FirebaseFirestore.instance
         .collection('users')
         .doc(passenger.user.id)
-        .collection('serviceApplications')
+        .collection('reservations')
         .where('serviceId', isEqualTo: id)
         .get();
 
     await FirebaseFirestore.instance
         .collection('users')
         .doc(passenger.user.id)
-        .collection('serviceApplications')
+        .collection('reservations')
         .doc(serviceApplication.docs.first.id)
         .delete();
 
@@ -88,7 +88,7 @@ class ServiceProvider with ChangeNotifier {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(user.id)
-        .collection('serviceApplications')
+        .collection('reservations')
         .add(newServiceApplication.toJson());
 
     notifyListeners();

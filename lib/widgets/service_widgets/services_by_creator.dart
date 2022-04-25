@@ -46,6 +46,7 @@ class _ServicesByCreatorState extends State<ServicesByCreator> {
               } else {
                 return ListView.builder(
                     shrinkWrap: true,
+                    primary: false,
                     itemCount: documents.length,
                     itemBuilder: (BuildContext context, int index) {
                       return FutureBuilder(

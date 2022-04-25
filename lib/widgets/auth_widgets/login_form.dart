@@ -1,3 +1,4 @@
+import 'package:collabcar/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginForm extends StatefulWidget {
@@ -90,7 +91,13 @@ class _LoginFormState extends State<LoginForm> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const RegisterScreen(),
+                          ));
+                    },
                     clipBehavior: Clip.hardEdge,
                     child: const Text('Regisztráció'),
                   ),

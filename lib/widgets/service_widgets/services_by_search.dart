@@ -47,6 +47,7 @@ class _ServicesBySearchState extends State<ServicesBySearch> {
             } else {
               return SingleChildScrollView(
                 child: Column(
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     const SizedBox(
                       height: 10,
@@ -64,6 +65,7 @@ class _ServicesBySearchState extends State<ServicesBySearch> {
                     ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
+                      primary: false,
                       itemBuilder: (context, index) {
                         return FutureBuilder(
                           future: Provider.of<ServiceProvider>(context)

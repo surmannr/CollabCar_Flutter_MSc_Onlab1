@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collabcar/models/favourite_search.dart';
 import 'package:collabcar/providers/favourite_search_provider.dart';
+import 'package:collabcar/providers/logged_user_provider.dart';
 import 'package:collabcar/widgets/favourites_widgets/favourite_search_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,8 +16,10 @@ class FavouriteScreen extends StatefulWidget {
 class _FavouriteScreenState extends State<FavouriteScreen> {
   @override
   Widget build(BuildContext context) {
+    var userId = Provider.of<LoggedUserProvider>(context).user!.id;
     return StreamBuilder(
-        stream: Provider.of<FavouriteSearchProvider>(context).getFromFirebase(),
+        stream: Provider.of<FavouriteSearchProvider>(context)
+            .getFromFirebase(userId),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

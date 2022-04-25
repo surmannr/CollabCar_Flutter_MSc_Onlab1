@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ServiceTile extends StatelessWidget {
-  const ServiceTile(
+  ServiceTile(
       {required this.service,
       required this.isCreatedServices,
       required this.fun,
@@ -21,6 +21,22 @@ class ServiceTile extends StatelessWidget {
 
   final int freeSeatingCapacity;
 
+  final GlobalKey expansionTileKey = GlobalKey();
+
+  void _scrollToSelectedContent({required GlobalKey expansionTileKey}) {
+    final keyContext = expansionTileKey.currentContext;
+
+    if (keyContext != null) {
+      Future.delayed(const Duration(milliseconds: 200)).then((value) {
+        Scrollable.ensureVisible(
+          keyContext,
+          duration: const Duration(milliseconds: 200),
+          alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
+        );
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -29,6 +45,10 @@ class ServiceTile extends StatelessWidget {
       ),
       child: Card(
         child: ExpansionTile(
+          key: expansionTileKey,
+          onExpansionChanged: (isExpanded) {
+            _scrollToSelectedContent(expansionTileKey: expansionTileKey);
+          },
           textColor: Colors.black,
           title: serviceTileTitle(),
           children: [

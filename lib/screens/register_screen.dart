@@ -24,6 +24,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     try {
       await Auth.createUserWithEmailAndPassword(
           name, email, password, birthDate, telephoneNumber, imageUrl);
+
+      Navigator.pop(context);
     } on PlatformException catch (err) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(err.message == null ? message : err.message!),

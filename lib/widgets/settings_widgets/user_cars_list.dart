@@ -32,6 +32,10 @@ class _UserCarsListWidgetState extends State<UserCarsListWidget> {
       if (car != null) {
         Provider.of<LoggedUserProvider>(context, listen: false)
             .createOrModifyUserCar(car);
+
+        setState(() {
+          newCarForm = !newCarForm;
+        });
       }
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Sikeresen elmentve'),
@@ -68,9 +72,35 @@ class _UserCarsListWidgetState extends State<UserCarsListWidget> {
             );
           } else {
             if (snapshot.hasData && documents.isEmpty) {
-              return const Center(
-                child: Text('Nincs kedvenc keresési előzményed.'),
-              );
+              return (!newCarForm)
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                              'Nincs egyetlen autó sem felvéve. Szeretnél egyet felvenni?'),
+                          SizedBox(
+                            width: 300,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  newCarForm = true;
+                                });
+                              },
+                              clipBehavior: Clip.hardEdge,
+                              child: const Text('Új felvétele'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : SingleChildScrollView(
+                      child: CarSettingsForm(
+                        submitCarSettings: _submitCarSettingsForm,
+                        car: null,
+                        cancel: cancel,
+                      ),
+                    );
             }
             return SingleChildScrollView(
               child: Column(

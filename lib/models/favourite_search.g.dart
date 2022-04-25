@@ -8,8 +8,7 @@ part of 'favourite_search.dart';
 
 FavouriteSearch _$FavouriteSearchFromJson(Map<String, dynamic> json) =>
     FavouriteSearch(
-      userId: json['userId'] as int,
-      driverId: json['driverId'] as int,
+      userId: json['userId'] as String,
       placeFrom: json['placeFrom'] == null
           ? null
           : Place.fromJson(json['placeFrom'] as Map<String, dynamic>),
@@ -38,5 +37,4 @@ Map<String, dynamic> _$FavouriteSearchToJson(FavouriteSearch instance) =>
       'canTransportBicycle': instance.canTransportBicycle,
       'isGoingHighway': instance.isGoingHighway,
       'userId': instance.userId,
-      'driverId': instance.driverId,
     };

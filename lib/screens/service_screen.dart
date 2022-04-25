@@ -66,7 +66,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
               : ServicesBySearch(
                   search: widget.search!,
                 ),
-      floatingActionButton: !serviceCreation
+      floatingActionButton: !serviceCreation && widget.search == null
           ? FloatingActionButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0),

@@ -1,5 +1,7 @@
 import 'package:collabcar/models/favourite_search.dart';
+import 'package:collabcar/models/search.dart';
 import 'package:collabcar/providers/favourite_search_provider.dart';
+import 'package:collabcar/screens/service_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -59,6 +61,21 @@ class FavouriteSearchTile extends StatelessWidget {
             foregroundColor: Colors.white,
             icon: Icons.delete,
             label: 'Törlés',
+          ),
+          SlidableAction(
+            onPressed: (context) async {
+              await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ServiceScreen(
+                      search: favourite,
+                    ),
+                  ));
+            },
+            backgroundColor: Colors.amber,
+            foregroundColor: Colors.white,
+            icon: Icons.search,
+            label: 'Keres',
           ),
         ],
       ),

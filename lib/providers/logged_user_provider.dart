@@ -30,6 +30,10 @@ class LoggedUserProvider with ChangeNotifier {
     cars = carQuerySnapshot.docs.map((doc) => doc.data() as Car).toList();
   }
 
+  Stream<QuerySnapshot> getLoggedUserReservations() {
+    return users.doc(user!.id).collection("reservations").snapshots();
+  }
+
   Future<void> modifyUser(my_user.User user) async {
     await users.doc(user.id).update(user.toJson());
   }

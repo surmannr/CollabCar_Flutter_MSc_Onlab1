@@ -127,7 +127,7 @@ class _ProfileSettingsFormState extends State<ProfileSettingsForm> {
             TextFormField(
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "A telefonszám kitöltése kötelező!";
+                  return "A születési dátum kitöltése kötelező!";
                 }
                 return null;
               },
