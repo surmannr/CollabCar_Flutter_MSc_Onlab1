@@ -1,16 +1,18 @@
+import 'package:collabcar/models/service.dart';
+import 'package:collabcar/models/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'passenger.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Passenger {
-  final int serviceId;
-  final int userId;
+  final Service service;
+  final User user;
   final bool isAccepted;
 
   Passenger({
-    required this.serviceId,
-    required this.userId,
+    required this.service,
+    required this.user,
     required this.isAccepted,
   });
 

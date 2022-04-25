@@ -46,17 +46,15 @@ class _ServiceCreationDialogFormState extends State<ServiceCreationForm> {
     if (isValid != null && isValid) {
       _formKey.currentState?.save();
       if (placeFrom != null && placeTo != null && selectedCar != null) {
-        Service service = Service(
-          placeFrom: placeFrom!,
-          placeTo: placeTo!,
-          date: date,
-          price: price,
-          canTransportPets: canTransportPets,
-          canTransportBicycle: canTransportBicycle,
-          isGoingHighway: isGoingHighway,
-          creatorUserId: creatorUserId,
-          selectedCar: selectedCar!,
-        );
+        Service service = Service.empty();
+        service.placeFrom = placeFrom!;
+        service.placeTo = placeTo!;
+        service.date = date;
+        service.price = price;
+        service.canTransportPets = canTransportPets;
+        service.canTransportBicycle = canTransportBicycle;
+        service.isGoingHighway = isGoingHighway;
+        service.selectedCar = selectedCar!;
         widget.saveNewService(service, true);
       }
     }

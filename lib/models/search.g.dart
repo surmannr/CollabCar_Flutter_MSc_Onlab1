@@ -24,8 +24,8 @@ Search _$SearchFromJson(Map<String, dynamic> json) => Search(
 
 Map<String, dynamic> _$SearchToJson(Search instance) => <String, dynamic>{
       'id': instance.id,
-      'placeFrom': instance.placeFrom,
-      'placeTo': instance.placeTo,
+      'placeFrom': instance.placeFrom?.toJson(),
+      'placeTo': instance.placeTo?.toJson(),
       'date': instance.date.toIso8601String(),
       'minSeatingCapacity': instance.minSeatingCapacity,
       'maxPrice': instance.maxPrice,

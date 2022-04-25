@@ -28,8 +28,8 @@ FavouriteSearch _$FavouriteSearchFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$FavouriteSearchToJson(FavouriteSearch instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'placeFrom': instance.placeFrom,
-      'placeTo': instance.placeTo,
+      'placeFrom': instance.placeFrom?.toJson(),
+      'placeTo': instance.placeTo?.toJson(),
       'date': instance.date.toIso8601String(),
       'minSeatingCapacity': instance.minSeatingCapacity,
       'maxPrice': instance.maxPrice,

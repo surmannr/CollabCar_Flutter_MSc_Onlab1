@@ -5,7 +5,7 @@ import 'package:uuid/uuid.dart';
 
 part 'search.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Search {
   String id;
   Place? placeFrom;

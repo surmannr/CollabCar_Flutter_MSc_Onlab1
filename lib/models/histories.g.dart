@@ -13,5 +13,5 @@ Histories _$HistoriesFromJson(Map<String, dynamic> json) => Histories(
     );
 
 Map<String, dynamic> _$HistoriesToJson(Histories instance) => <String, dynamic>{
-      'searches': instance.searches,
+      'searches': instance.searches.map((e) => e.toJson()).toList(),
     };

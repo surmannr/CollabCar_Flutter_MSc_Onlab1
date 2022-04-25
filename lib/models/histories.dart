@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'histories.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Histories {
   final List<Search> searches;
 

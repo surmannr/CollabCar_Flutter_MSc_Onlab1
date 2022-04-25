@@ -1,19 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'passenger.dart';
+part of 'service_application.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Passenger _$PassengerFromJson(Map<String, dynamic> json) => Passenger(
+ServiceApplication _$ServiceApplicationFromJson(Map<String, dynamic> json) =>
+    ServiceApplication(
       service: Service.fromJson(json['service'] as Map<String, dynamic>),
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
       isAccepted: json['isAccepted'] as bool,
+      creatorUser: User.fromJson(json['creatorUser'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$PassengerToJson(Passenger instance) => <String, dynamic>{
+Map<String, dynamic> _$ServiceApplicationToJson(ServiceApplication instance) =>
+    <String, dynamic>{
       'service': instance.service.toJson(),
-      'user': instance.user.toJson(),
+      'creatorUser': instance.creatorUser.toJson(),
       'isAccepted': instance.isAccepted,
     };

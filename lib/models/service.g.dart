@@ -14,19 +14,19 @@ Service _$ServiceFromJson(Map<String, dynamic> json) => Service(
       canTransportPets: json['canTransportPets'] as bool,
       canTransportBicycle: json['canTransportBicycle'] as bool,
       isGoingHighway: json['isGoingHighway'] as bool,
-      creatorUserId: json['creatorUserId'] as String,
+      creatorUser: User.fromJson(json['creatorUser'] as Map<String, dynamic>),
       selectedCar: Car.fromJson(json['selectedCar'] as Map<String, dynamic>),
     )..id = json['id'] as String;
 
 Map<String, dynamic> _$ServiceToJson(Service instance) => <String, dynamic>{
       'id': instance.id,
-      'placeFrom': instance.placeFrom,
-      'placeTo': instance.placeTo,
+      'placeFrom': instance.placeFrom.toJson(),
+      'placeTo': instance.placeTo.toJson(),
       'date': instance.date.toIso8601String(),
       'price': instance.price,
       'canTransportPets': instance.canTransportPets,
       'canTransportBicycle': instance.canTransportBicycle,
       'isGoingHighway': instance.isGoingHighway,
-      'creatorUserId': instance.creatorUserId,
-      'selectedCar': instance.selectedCar,
+      'creatorUser': instance.creatorUser.toJson(),
+      'selectedCar': instance.selectedCar.toJson(),
     };

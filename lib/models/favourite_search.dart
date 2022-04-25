@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'favourite_search.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class FavouriteSearch extends Search {
   final int userId;
   final int driverId;

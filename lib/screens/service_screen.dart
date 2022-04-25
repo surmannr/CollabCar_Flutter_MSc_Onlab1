@@ -30,9 +30,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
     });
 
     if (service != null) {
-      var userId =
-          Provider.of<LoggedUserProvider>(context, listen: false).user!.id;
-      service.creatorUserId = userId;
+      var user = Provider.of<LoggedUserProvider>(context, listen: false).user!;
+      service.creatorUser = user;
       Provider.of<ServiceProvider>(context, listen: false)
           .addNewServiceElement(service);
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -62,21 +61,17 @@ class _ServiceScreenState extends State<ServiceScreen> {
               saveNewService: saveService,
               cars: cars,
             )
-          : Center(
-              child: widget.search == null
-                  ? const ServicesByCreator()
-                  : ServicesBySearch(
-                      search: widget.search!,
-                    ),
-            ),
+          : widget.search == null
+              ? const ServicesByCreator()
+              : ServicesBySearch(
+                  search: widget.search!,
+                ),
       floatingActionButton: !serviceCreation
-          ? FloatingActionButton.extended(
+          ? FloatingActionButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0),
               ),
-              label: const Text("Új szolgáltatás felvétele"),
-              extendedIconLabelSpacing: 16,
-              extendedPadding: const EdgeInsets.all(33.0),
+              child: const Icon(Icons.add),
               onPressed: () {
                 setState(() {
                   serviceCreation = true;
@@ -84,7 +79,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
               },
             )
           : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
