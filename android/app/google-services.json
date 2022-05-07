@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "90125966880",
+    "firebase_url": "https://collabcar-msconlab-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "collabcar-msconlab",
     "storage_bucket": "collabcar-msconlab.appspot.com"
   },

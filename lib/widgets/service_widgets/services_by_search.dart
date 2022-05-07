@@ -45,6 +45,18 @@ class _ServicesBySearchState extends State<ServicesBySearch> {
                 child: Text('Nincs találat a keresésre.'),
               );
             } else {
+              var services = documents
+                  .map((e) => e.data() as Service)
+                  .where((element) => element.placeFrom.address
+                      .toLowerCase()
+                      .contains(
+                          widget.search.placeFrom?.address.toLowerCase() ?? ""))
+                  .where((element) => element.placeTo.address
+                      .toLowerCase()
+                      .contains(
+                          widget.search.placeTo?.address.toLowerCase() ?? ""))
+                  .where((element) => element.date.isAfter(widget.search.date))
+                  .toList();
               return SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -69,27 +81,26 @@ class _ServicesBySearchState extends State<ServicesBySearch> {
                       itemBuilder: (context, index) {
                         return FutureBuilder(
                           future: Provider.of<ServiceProvider>(context)
-                              .getPassengersForService(documents[index].id),
+                              .getPassengersForService(services[index].id),
                           builder: (BuildContext context,
                               AsyncSnapshot<List<Passenger>> snapshot) {
                             return Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 4.0),
                               child: ServiceTile(
-                                service: documents[index].data()! as Service,
+                                service: services[index],
                                 isCreatedServices: false,
                                 fun: apply,
-                                freeSeatingCapacity:
-                                    (documents[index].data()! as Service)
-                                            .selectedCar
-                                            .seatingCapacity -
-                                        (snapshot.data?.length ?? 0),
+                                freeSeatingCapacity: (services[index])
+                                        .selectedCar
+                                        .seatingCapacity -
+                                    (snapshot.data?.length ?? 0),
                               ),
                             );
                           },
                         );
                       },
-                      itemCount: documents.length,
+                      itemCount: services.length,
                     ),
                   ],
                 ),

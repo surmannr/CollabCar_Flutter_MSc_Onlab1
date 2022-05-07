@@ -88,7 +88,8 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
   @override
   Widget build(BuildContext context) {
     final searchData = Provider.of<SearchProvider>(context, listen: false);
-    if (searchData.search.placeFrom != null) {
+    if (searchData.search.placeFrom != null &&
+        searchData.search.placeFrom!.latitude != -200) {
       markers.add(Marker(
         markerId: const MarkerId('placeFrom'),
         position: LatLng(searchData.search.placeFrom!.latitude,
@@ -96,7 +97,8 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
       ));
     }
-    if (searchData.search.placeTo != null) {
+    if (searchData.search.placeTo != null &&
+        searchData.search.placeTo!.latitude != -200) {
       markers.add(Marker(
         markerId: const MarkerId('placeTo'),
         position: LatLng(searchData.search.placeTo!.latitude,

@@ -29,9 +29,12 @@ class _StepOneSearchState extends State<StepOneSearch> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Icon(
-          Icons.place,
-          color: Colors.red,
+        GestureDetector(
+          onLongPress: () => _selectOnMap(isPlaceFrom, searchData),
+          child: const Icon(
+            Icons.place,
+            color: Colors.red,
+          ),
         ),
         const SizedBox(
           width: 20,
@@ -44,7 +47,22 @@ class _StepOneSearchState extends State<StepOneSearch> {
               hintText: hintText,
             ),
             controller: isPlaceFrom ? placeFromTextField : placeToTextField,
-            onTap: () => _selectOnMap(isPlaceFrom, searchData),
+            onEditingComplete: () => {
+              if (isPlaceFrom)
+                {
+                  searchData.search.placeFrom = Place(
+                      latitude: -200.0,
+                      longitude: -200.0,
+                      address: placeFromTextField.text)
+                }
+              else
+                {
+                  searchData.search.placeTo = Place(
+                      latitude: -200.0,
+                      longitude: -200.0,
+                      address: placeToTextField.text)
+                }
+            },
           ),
         ),
       ],

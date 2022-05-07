@@ -1,3 +1,4 @@
+import 'package:background_location/background_location.dart';
 import 'package:collabcar/helpers/auth.dart';
 import 'package:collabcar/providers/logged_user_provider.dart';
 import 'package:collabcar/screens/favourite_screen.dart';
@@ -5,7 +6,9 @@ import 'package:collabcar/screens/history_screen.dart';
 import 'package:collabcar/screens/login_screen.dart';
 import 'package:collabcar/screens/search_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/menu/main_drawer.dart';
@@ -88,13 +91,34 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  final databaseReference = FirebaseDatabase.instance.ref();
+  void locationSharing(User user) async {
+    if (await Permission.location.request().isGranted) {
+      await BackgroundLocation.setAndroidNotification(
+        title: 'Background service is running',
+        message: 'Background location in progress',
+        icon: '@mipmap/ic_launcher',
+      );
+      await BackgroundLocation.startLocationService(distanceFilter: 20);
+      BackgroundLocation.getLocationUpdates((location) {
+        databaseReference
+            .child("location")
+            .child(user.uid)
+            .set({"locationData": location.toMap()});
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<User?>(
         future: Auth.currentUser(),
         builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
           if (snapshot.hasData) {
-            Provider.of<LoggedUserProvider>(context).login(snapshot.data!);
+            Provider.of<LoggedUserProvider>(context, listen: false)
+                .login(snapshot.data!);
+            locationSharing(snapshot.data!);
+
             return const MainScreen();
           }
           return const LoginScreen();

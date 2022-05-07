@@ -23,7 +23,7 @@ class ServiceProvider with ChangeNotifier {
   }
 
   Stream<QuerySnapshot> servicesFilteredBySearch(Search search) {
-    return _services.snapshots(); //filterServices(search).snapshots();
+    return _services.filterServices(search).snapshots();
   }
 
   Future<List<Passenger>> getPassengersForService(String serviceId) async {
@@ -98,19 +98,6 @@ class ServiceProvider with ChangeNotifier {
 extension ServiceFilter on CollectionReference {
   Query<Object?> filterServices(Search search) {
     Query<Object?> query = orderBy('date');
-    if (search.placeTo != null) {
-      if (search.placeTo!.address.isNotEmpty) {
-        query.where('placeTo.address',
-            arrayContains: search.placeTo!.address.split(' '));
-      }
-    }
-
-    if (search.placeFrom != null) {
-      if (search.placeFrom!.address.isNotEmpty) {
-        query.where('placeFrom.address',
-            arrayContains: search.placeFrom!.address.split(' '));
-      }
-    }
 
     if (search.maxPrice != null) {
       query.where('price', isLessThanOrEqualTo: search.maxPrice);
