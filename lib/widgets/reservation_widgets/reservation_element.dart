@@ -72,19 +72,30 @@ class ReservationElement extends StatelessWidget {
                   serviceTileCar(),
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: (reservation.service.date
-                                  .difference(DateTime.now())
-                                  .inHours <
-                              1)
-                          ? () => trackPerson(context)
-                          : null,
-                      clipBehavior: Clip.hardEdge,
-                      child: const Text('Nyomkövetés'),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.red),
-                      ),
-                    ),
+                    child: reservation.isAccepted
+                        ? ElevatedButton(
+                            onPressed: (reservation.service.date
+                                        .difference(DateTime.now())
+                                        .inHours <
+                                    1)
+                                ? () => trackPerson(context)
+                                : null,
+                            clipBehavior: Clip.hardEdge,
+                            child: const Text('Nyomkövetés'),
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.red),
+                            ),
+                          )
+                        : const Center(
+                            child: Text(
+                              'Nincs elfogadva a szervező által.',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18.0,
+                              ),
+                            ),
+                          ),
                   ),
                 ],
               ),

@@ -67,17 +67,42 @@ class ServiceProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void updateAcceptPassenger(
+      String serviceId, String userId, String passengerId) async {
+    await _services
+        .doc(serviceId)
+        .collection("passenger")
+        .doc(passengerId)
+        .update({"isAccepted": true});
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .collection('reservations')
+        .doc(passengerId)
+        .update({"isAccepted": true});
+
+    notifyListeners();
+  }
+
   void addNewPassenger(Service service, User user) async {
     Passenger newPassenger = Passenger(
+      id: "",
       service: service,
       user: user,
       isAccepted: false,
     );
 
-    await _services
+    var addedPassenger = await _services
         .doc(service.id)
         .collection("passenger")
         .add(newPassenger.toJson());
+
+    await _services
+        .doc(service.id)
+        .collection("passenger")
+        .doc(addedPassenger.id)
+        .update({'id': addedPassenger.id});
 
     ServiceApplication newServiceApplication = ServiceApplication(
       service: service,
@@ -89,7 +114,8 @@ class ServiceProvider with ChangeNotifier {
         .collection('users')
         .doc(user.id)
         .collection('reservations')
-        .add(newServiceApplication.toJson());
+        .doc(addedPassenger.id)
+        .set(newServiceApplication.toJson());
 
     notifyListeners();
   }

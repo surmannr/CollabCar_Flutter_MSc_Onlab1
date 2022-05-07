@@ -6,11 +6,13 @@ part 'passenger.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Passenger {
+  final String id;
   final Service service;
   final User user;
   final bool isAccepted;
 
   Passenger({
+    required this.id,
     required this.service,
     required this.user,
     required this.isAccepted,
